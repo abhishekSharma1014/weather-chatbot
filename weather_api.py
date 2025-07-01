@@ -1,7 +1,14 @@
 import requests
 from datetime import datetime, timezone, timedelta
 
-API_KEY = "REMOVED_API_KEY"  # Your actual key here
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env file
+
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
+
 
 # Emoji mapping based on weather condition
 weather_emojis = {
