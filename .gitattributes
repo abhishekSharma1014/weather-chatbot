@@ -1,0 +1,17 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Declare files that should always have LF line endings
+*.sh     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.json   text eol=lf
+*.py     text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+
+# Declare files that should always have CRLF line endings (Windows style), if any
+# (optional, only if you want some files to always have CRLF)
+# *.bat    text eol=crlf
+# *.cmd    text eol=crlf
