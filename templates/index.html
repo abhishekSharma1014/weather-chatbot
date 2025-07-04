@@ -35,10 +35,9 @@
       margin-top: 8px;
     }
 
-    /* Container to hold chat and map side by side */
     #main-container {
       display: flex;
-      width: 880px;  /* 420 + 440 */
+      width: 880px;
       gap: 20px;
       margin-bottom: 40px;
     }
@@ -219,7 +218,6 @@
     }
     #suggestedQuestions button:hover { background-color: #1d4ed8; }
 
-    /* Map container styles */
     #map {
       width: 440px;
       height: 700px;
@@ -229,7 +227,6 @@
     }
   </style>
 
-  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -264,7 +261,6 @@
     <div id="map" aria-label="Map showing weather location"></div>
   </div>
 
-  <!-- Leaflet JS -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     crossorigin=""
@@ -342,9 +338,17 @@
         hideLoading();
 
         if (data.reply) {
-          appendMessage(data.reply, 'bot');
+          // ✅ Day-wise forecast formatting
+          if (data.reply.startsWith("5-day forecast for")) {
+            const lines = data.reply.split('\n');
+            appendMessage(lines[0], 'bot');
+            for (let i = 1; i < lines.length; i++) {
+              if (lines[i].trim()) appendMessage(lines[i], 'bot');
+            }
+          } else {
+            appendMessage(data.reply, 'bot');
+          }
 
-          // Fixed property names to match backend API response
           if (data.lat && data.lon && data.location) {
             updateMap(data.lat, data.lon, data.location);
           }
@@ -369,7 +373,6 @@
       }
     });
 
-    // Initialize map on load
     window.onload = () => {
       initMap();
     };
