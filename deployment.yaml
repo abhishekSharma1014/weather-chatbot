@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weatherbot-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weatherbot
+  template:
+    metadata:
+      labels:
+        app: weatherbot
+    spec:
+      containers:
+      - name: weatherbot
+        image: abhisheksharma1014/weatherbot:latest
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weatherbot-service
+spec:
+  selector:
+    app: weatherbot
+  ports:
+  - protocol: TCP
+    port: 80          # External port exposed by the service
+    targetPort: 5000  # Port your app listens inside the container
+  type: LoadBalancer

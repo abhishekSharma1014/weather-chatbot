@@ -29,6 +29,8 @@ def generate_response(user_message: str) -> dict:
         response = get_hourly_forecast(location)
     elif "5 day" in message or "5-day" in message or "five day" in message:
         response = get_5_day_forecast(location)
+    elif "forecast" in message:
+        response = get_current_weather(location)
     elif "current" in message or "weather" in message:
         response = get_current_weather(location)
     else:
