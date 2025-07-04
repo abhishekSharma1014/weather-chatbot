@@ -27,7 +27,14 @@ def generate_response(user_message: str) -> dict:
     # Call weather APIs depending on intent keywords
     if "hourly" in message:
         response = get_hourly_forecast(location)
-    elif "5 day" in message or "5-day" in message or "five day" in message:
+    elif (
+        "5 day" in message
+        or "5-day" in message
+        or "five day" in message
+        or "day 1 to day 5" in message
+        or "5-day summary" in message
+        or "day-wise" in message
+    ):
         response = get_5_day_forecast(location)
     elif "forecast" in message:
         response = get_current_weather(location)
@@ -85,7 +92,8 @@ def extract_location(text: str) -> str:
     """
     Simple location extractor by removing known keywords.
     """
-    keywords = ["current", "weather", "hourly", "forecast", "in", "5 day", "5-day", "five day", "of"]
+    keywords = ["current", "weather", "hourly", "forecast", "in", "5 day", "5-day", "five day", "of", "day 1 to day 5", "day-wise","day-wise",
+        "show me", "day 1 to day 5", "summary"]
     lowered = text.lower()
     for kw in keywords:
         lowered = lowered.replace(kw, "")

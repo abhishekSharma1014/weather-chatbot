@@ -102,6 +102,7 @@ def get_hourly_forecast(location):
 
 def get_5_day_forecast(location):
     try:
+        location = location.strip().strip('"').strip("'")
         params = {
             "q": location,
             "appid": API_KEY,
