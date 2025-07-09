@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 from flask import Flask, request, jsonify, render_template
 from weather_api import get_current_weather, get_hourly_forecast, get_5_day_forecast
+from db import insert_chat_history
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -110,13 +111,18 @@ def index():
 def chat():
     try:
         data = request.get_json()
-        response_data = generate_response(data.get('message', ''))
+        user_message = data.get('message', '')
+        response_data = generate_response(user_message)
         result = {
             "reply": response_data.get("reply", ""),
             "lat": response_data.get("lat"),
             "lon": response_data.get("lon"),
             "location": response_data.get("location")
         }
+        # ✅ Save to PostgreSQL DB
+        if result["reply"]:  # Only insert if there's a valid reply
+            insert_chat_history(user_message, result["reply"])
+
         print("DEBUG → /api/chat returns:", result)
         return jsonify(result), 200
     except Exception as e:
